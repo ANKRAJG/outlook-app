@@ -1,4 +1,4 @@
-import { OutlookDataProps } from "../components/types";
+import { EmailDetailsProps, OutlookDataProps } from "../components/types";
 
 export const outlookData: OutlookDataProps = {
     'inbox': [
@@ -9,7 +9,8 @@ export const outlookData: OutlookDataProps = {
             description: 'These components use the Material UI SvgIcon component to render the SVG path for each icon, and so have a peer-dependency on @mui/material.',
             from: 'yogesh@singh.com',
             senderName: 'Yogesh Singh',
-            to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'], 
+            to: ['ankit@gupta.com', 'saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'], 
+            receiverNames: [],
             replys: []
         },
         {
@@ -19,7 +20,8 @@ export const outlookData: OutlookDataProps = {
             description: 'SVG elements should be scaled for a 24x24px viewport so that the resulting icon can be used as is, or included as a child for other Material UI components that use icons. This can be customized with the viewBox attribute.',
             from: 'rajni@gupta.com',
             senderName: 'Rajni Gupta',
-            to: ['rajni@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankur@kabadi.com'],
+            to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankit@gupta.com'],
+            receiverNames: [],
             expanded: false,
             replys: [
                 {
@@ -29,7 +31,8 @@ export const outlookData: OutlookDataProps = {
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
                     from: 'rajni@gupta.com',
                     senderName: 'Rajni Gupta',
-                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com'],
+                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankit@gupta.com'],
+                    receiverNames: [],
                     replys: []
                 },
                 {
@@ -39,7 +42,8 @@ export const outlookData: OutlookDataProps = {
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
                     from: 'papu@kapoor.com',
                     senderName: 'Papu Nath Kapoor',
-                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'rajni@gupta.com'],
+                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'rajni@gupta.com', 'ankit@gupta.com'],
+                    receiverNames: [],
                     replys: []
                 },
                 {
@@ -48,7 +52,8 @@ export const outlookData: OutlookDataProps = {
                     description: 'If you find that there are layout issues when using FontAwesomeIcon from @fortawesome/react-fontawesome, you can try passing the Font Awesome SVG data directly to SvgIcon.',
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
                     from: 'hitarth@gupta.com',
-                    to: ['papu@kapoor.com', 'hitarth@reja.com', 'rajni@gupta.com'],
+                    to: ['papu@kapoor.com', 'hitarth@reja.com', 'rajni@gupta.com', 'ankit@gupta.com'],
+                    receiverNames: [],
                     replys: []
                 }
             ]    
@@ -60,7 +65,8 @@ export const outlookData: OutlookDataProps = {
             description: 'Stay tuned for ongoing COVID-19, Work from Home guidance and Return to Workplace related updates. Hello, In this example the remote module only works when the page is refreshed. Even if the loaded script is deleted, it is impossible to install and remove the code. how can i remove script code from browser. because I checked the console and saw that it is still installed. how can i make dynamic loading module.',
             from: 'animesh@jaiswal.com',
             senderName: 'Animesh Jaiswal',
-            to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            to: ['ankit@gupta.com', 'saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            receiverNames: [],
             replys: []    
         },
     ],
@@ -73,6 +79,7 @@ export const outlookData: OutlookDataProps = {
             from: 'ankit@gupta.com',
             senderName: 'Ankit Gupta',
             to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            receiverNames: ['Saurabh Chenchde', 'Ranga Parbat', ''],
             replys: []    
         },
         {
@@ -82,7 +89,8 @@ export const outlookData: OutlookDataProps = {
             description: 'Stay tuned for ongoing COVID-19, Work from Home guidance and Return to Workplace related updates. Hello, In this example the remote module only works when the page is refreshed. Even if the loaded script is deleted, it is impossible to install and remove the code. how can i remove script code from browser. because I checked the console and saw that it is still installed. how can i make dynamic loading module.',
             from: 'ankit@gupta.com',
             senderName: 'Ankit Gupta',
-            to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            to: ['ranga@parbat.com', 'saurabh@chench.com', 'kishkinda@naresh.com'],
+            receiverNames: ['Ranga Parbat', 'Saurabh Chenchde', ''],
             replys: []    
         }
     ],
@@ -93,8 +101,9 @@ export const outlookData: OutlookDataProps = {
             subject: 'Sent Email 1',
             description: 'These components use the Material UI SvgIcon component to render the SVG path for each icon, and so have a peer-dependency on @mui/material.',
             from: 'ankit@gupta.com',
-            senderName: 'Ankit Gupta',
+            senderName: 'Ankit Gupta', 
             to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            receiverNames: ['Saurabh Chenchde', 'Ranga Parbat', ''],
             replys: []    
         },
         {
@@ -104,7 +113,8 @@ export const outlookData: OutlookDataProps = {
             description: 'Stay tuned for ongoing COVID-19, Work from Home guidance and Return to Workplace related updates. Hello, In this example the remote module only works when the page is refreshed. Even if the loaded script is deleted, it is impossible to install and remove the code. how can i remove script code from browser. because I checked the console and saw that it is still installed. how can i make dynamic loading module.',
             from: 'ankit@gupta.com',
             senderName: 'Ankit Gupta',
-            to: ['saurabh@chench.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            to: ['kishkinda@naresh.com', 'saurabh@chench.com', 'ranga@parbat.com'],
+            receiverNames: ['', 'Saurabh Chenchde', 'Ranga Parbat'],
             replys: []    
         }
     ],
@@ -117,6 +127,7 @@ export const outlookData: OutlookDataProps = {
             from: 'saurabh@chench.com',
             senderName: 'Saurabh Chenchde',
             to: ['ankit@gupta.com', 'ranga@parbat.com', 'kishkinda@naresh.com'],
+            receiverNames: [],
             replys: []    
         },
         {
@@ -127,6 +138,7 @@ export const outlookData: OutlookDataProps = {
             from: 'ranga@parbat.com',
             senderName: 'Ranga Parbat',
             to: ['saurabh@chench.com', 'ankit@gupta.com', 'kishkinda@naresh.com'],
+            receiverNames: [],
             replys: []    
         },
         {
@@ -136,25 +148,26 @@ export const outlookData: OutlookDataProps = {
             description: `Google was initially funded by an August 1998 investment of $100,000 from Andy Bechtolsheim,[21] co-founder of Sun Microsystems. This initial investment served as a motivation to incorporate the company to be able to use the funds.[40][41] Page and Brin initially approached David Cheriton for advice because he had a nearby office in Stanford, and they knew he had startup experience, having recently sold the company he co-founded, Granite Systems, to Cisco for $220 million. David arranged a meeting with Page and Brin and his Granite co-founder Andy Bechtolsheim. The meeting was set for 8 a.m. at the front porch of David's home in Palo Alto and it had to be brief because Andy had another meeting at Cisco, where he now worked after the acquisition, at 9 a.m. Andy briefly tested a demo of the website, liked what he saw, and then went back to his car to grab the check. David Cheriton later also joined in with a $250,000 investment.`,
             from: 'kishkinda@naresh.com',
             to: ['saurabh@chench.com', 'ranga@parbat.com', 'ankit@gupta.com'],
+            receiverNames: [],
             replys: []    
         }
     ],
  };
 
  export const colorMap = {
-    'inbox': ['#2E39A1', '#BB4747', '#7A5A3A', '#F77419', '#B91D04'],
-    'drafts': ['#7A5A3A', '#2E39A1', '#F77419', '#BB4747', '#B91D04'],
-    'sent-items': ['#2E39A1', '#F77419', '#7A5A3A', '#BB4747', '#B91D04'],
-    'deleted-items': ['#F77419', '#7A5A3A', '#BB4747', '#2E39A1', '#B91D04']
+    'inbox': ['#2E39A1', '#BB4747', '#7A5A3A', '#F77419', '#B91D04', '#888888'],
+    'drafts': ['#7A5A3A', '#2E39A1', '#888888', '#F77419', '#BB4747', '#B91D04'],
+    'sent-items': ['#2E39A1', '#888888', '#F77419', '#7A5A3A', '#BB4747', '#B91D04'],
+    'deleted-items': ['#F77419', '#7A5A3A', '#BB4747', '#888888', '#2E39A1', '#B91D04']
  }
 
- export const emailList = [
-    'yogesh@singh.com', 
-    'rajni@gupta.com', 
-    'papu@kapoor.com', 
-    'hitarth@gupta.com', 
-    'animesh@jaiswal.com', 
-    'saurabh@chench.com', 
-    'ranga@parbat.com', 
-    'kishkinda@naresh.com'
+ export const emailList: EmailDetailsProps[] = [
+    {email: 'yogesh@singh.com', name: 'Yogesh Singh'}, 
+    {email: 'rajni@gupta.com', name: 'Rajni Gupta'}, 
+    {email: 'papu@kapoor.com', name: 'Papu Nath Kapoor'}, 
+    {email: 'hitarth@gupta.com', name: ''}, 
+    {email: 'animesh@jaiswal.com', name: 'Animesh Jaiswal'}, 
+    {email: 'saurabh@chench.com', name: 'Saurabh Chenchde'}, 
+    {email: 'ranga@parbat.com', name: 'Ranga Parbat'}, 
+    {email: 'kishkinda@naresh.com', name: ''}
 ];

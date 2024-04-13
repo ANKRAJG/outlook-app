@@ -19,7 +19,8 @@ const EmailList = () => {
 
     const colors: string[] = colorMap[selectedType as keyof typeof colorMap];
     selectedEmailList.forEach((email, idx) => {
-        email.color = colors[idx];
+        const rem = idx % colors.length;
+        email.color = colors[rem];
     });
 
     const handleToggleClick = (email: Email) => {
@@ -42,15 +43,28 @@ const EmailList = () => {
 
     const deleteEmail = (id: number) => {
         const i = selectedEmailList.findIndex((email) => email.id===id);
-        selectedEmailList.splice(i, 1);
+        const deletedMail = selectedEmailList.splice(i, 1);
         setSelectedEmailList(selectedEmailList);
         const outlookData = getOutlookDataInStorage();
         outlookData[selectedType] = selectedEmailList;
+        if(selectedType !== 'deleted-items') {
+            outlookData['deleted-items'].push(deletedMail[0]);
+        }
         setOutlookDataInStorage(outlookData);
     };
 
+    const getDisplayName = (email: Email) => {
+        let name = '';
+        if(['inbox', 'deleted-items'].indexOf(selectedType) > -1) {
+            name = email.senderName ?? email.from;
+        } else {
+            name = (email.receiverNames[0] && email.receiverNames[0]!=='') ? email.receiverNames[0] : email.to[0];
+        }
+        return name;
+    }
+
     const createInitials = (email: Email) => {
-        const name = email.senderName ?? email.from;
+        const name = getDisplayName(email);
         const nameArr = name.split(' ');
         let initials = '';
         nameArr.forEach((item, idx) => {
@@ -73,7 +87,7 @@ const EmailList = () => {
                             {createInitials(email)}
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={email.senderName || email.from} 
+                    <ListItemText primary={getDisplayName(email)} 
                         sx={{ display: 'inline-block', pl:0 }}
                         secondary={
                             <Fragment>

@@ -26,7 +26,6 @@ const EmailTypes = () => {
         const emailThread = outlookData[type][0];
         const emailOrReply = emailThread.replys?.length ? emailThread.replys[0] : emailThread;
         setSelectedEmail(emailOrReply);
-        console.log('outlookData = ', outlookData);
     };
 
     return (      

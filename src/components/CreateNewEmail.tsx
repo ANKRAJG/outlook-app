@@ -2,20 +2,21 @@ import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import styles from './CreateNewEmail.module.css';
 import { Send, DeleteOutline } from '@mui/icons-material';
 import { ChangeEvent, useState } from "react";
-import { emailList, outlookData } from "../data/outlookData";
+import { emailList } from "../data/outlookData";
 import { useOutlookContext } from "../providers/OutlookProvider";
 import { getMaxOutlookId } from "../helpers/helper";
-import { setOutlookDataInStorage } from "../data/storage";
+import { getOutlookDataInStorage, setOutlookDataInStorage } from "../data/storage";
+import { EmailDetailsProps } from "./types";
 
 
 const CreateNewEmail = () => {
-    const { setOpenEmailMode } = useOutlookContext();
-    const [toEmails, setToEmails] = useState<string[]>([]);
+    const { selectedEmailList, setSelectedEmailList, setOpenEmailMode } = useOutlookContext();
+    const [toEmailDetails, setToEmailDetails] = useState<EmailDetailsProps[]>([]);
     const [subject, setSubject] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
-    const handleToEmailListChange = (value: string[]) => {
-        setToEmails(value)
+    const handleToEmailListChange = (value: EmailDetailsProps[]) => {
+        setToEmailDetails(value);
     };
 
     const handleSubjectChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,10 +37,14 @@ const CreateNewEmail = () => {
             description,
             from: 'ankit@gupta.com',
             senderName: 'Ankit Gupta',
-            to: toEmails, 
+            to: toEmailDetails.map(ed => ed.email), 
+            receiverNames: toEmailDetails.map(ed => ed.name), 
             replys: []
         }
 
+        selectedEmailList.push(emailObj);
+        setSelectedEmailList(selectedEmailList);
+        const outlookData = getOutlookDataInStorage();
         outlookData['sent-items'].push(emailObj);
         setOutlookDataInStorage(outlookData);
         setOpenEmailMode(false);
@@ -50,7 +55,7 @@ const CreateNewEmail = () => {
             <Box>
                 <Button sx={{ mr: 3 }} variant="text" size="medium" 
                     startIcon={<Send sx={{ pt:0.75 }} />}
-                    disabled={toEmails.length===0}
+                    disabled={toEmailDetails.length===0}
                     onClick={sendEmail}
                 >
                     Send
@@ -74,7 +79,7 @@ const CreateNewEmail = () => {
                         multiple
                         id="tags-standard"
                         options={emailList}
-                        getOptionLabel={(option) => option}
+                        getOptionLabel={(option) => option.email}
                         onChange={(e, val) => handleToEmailListChange(val)}
                         renderInput={(params) => (
                             <TextField
