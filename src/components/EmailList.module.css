@@ -1,0 +1,53 @@
+.emailBox {
+    border-bottom: 1px solid #bbb !important;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 4px 0px 0px 0px !important;
+    z-index: 1;
+}
+
+.replyEmailBox {
+    border-top: 1px solid #bbb !important;
+    padding: 0 0 0 80px !important;
+    z-index: 2;
+}
+
+.active {
+    border: 2px solid #bbb !important;
+    background-color: #EBFFFF !important;
+}
+
+.activeReply {
+    border: 2px solid #bbb !important;
+    background-color: #FFFFEB !important;
+}
+
+.collapseWrapper {
+    float: left;
+    position: relative; 
+    top: 24px;
+    left: 2px;
+}
+
+.deleteWrapper, .deleteReplyWrapper {
+    float: right;
+    position: relative; 
+    top: 16px; 
+    right: 12px;
+    display: none;
+}
+
+.emailBox:hover .deleteWrapper {
+    display: inline-block;
+}
+
+.replyEmailBox:hover .deleteReplyWrapper {
+    display: inline-block;
+}
+
+.avatarWrapper {
+    display: inline-block;
+    padding: 0;
+    top: -20px;
+    position: relative;
+}

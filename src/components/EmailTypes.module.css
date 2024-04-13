@@ -1,0 +1,16 @@
+.emailType {
+    border-bottom: 1px solid #bbb !important;
+    text-transform: capitalize;
+    cursor: pointer !important;
+    padding: 12px 32px !important;
+}
+
+.active {
+    color: rgb(0, 107, 214) !important;
+    font-weight: 700 !important;
+    border: 2px solid rgb(0, 107, 214) !important;
+}
+
+.active span {
+    font-weight: 600 !important;
+}

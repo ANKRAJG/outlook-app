@@ -1,0 +1,20 @@
+.innerGrid {
+    border-top: 1px solid #999;
+    border-right: 1px solid #999;
+    height: 97%;
+}
+
+.innerGrid h2 {
+    text-transform: capitalize;
+    padding-left: 32px;
+    margin: 12px 0;
+}
+
+.innerGrid h3 {
+    padding-left: 32px;
+    margin: 15px 0;
+}
+
+.innerGrid button {
+    font-weight: 600;
+}
