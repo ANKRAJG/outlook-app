@@ -22,7 +22,7 @@ const EmailList = () => {
     useEffect(() => {
         // On Email Type change, we expand the first email from the list.
         setOpenMail({open: selectedEmailList[0].id});
-    }, [selectedType]);
+    }, [selectedType, selectedEmailList]);
 
     const colors: string[] = colorMap[selectedType as keyof typeof colorMap];
     selectedEmailList.forEach((email, idx) => {
