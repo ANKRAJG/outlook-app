@@ -1,7 +1,7 @@
 import { Avatar, Collapse, List, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material";
 import styles from './EmailList.module.css';
 import { useOutlookContext } from "../providers/OutlookProvider";
-import { Fragment, MouseEvent } from "react";
+import { Fragment, MouseEvent, useState } from "react";
 import { Email } from "./types";
 import { ExpandLess, ExpandMore, DeleteOutlined } from "@mui/icons-material";
 import { colorMap } from "../data/outlookData";
@@ -17,6 +17,16 @@ const EmailList = () => {
         setOpenEmailMode
     } = useOutlookContext();
 
+    const [openMail, setOpenMail] = useState({open: selectedEmailList[0].id});
+    const checkInCaseOfReply = () => {
+        const parent = selectedEmailList.filter(e => e.id===selectedEmail.parentId)[0];
+        parent.replys.sort((a, b) => b.id-a.id);
+    }
+
+    if(['reply', 'firstReply'].indexOf(selectedEmail.type!) > -1) {
+        checkInCaseOfReply();  
+    }
+
     const colors: string[] = colorMap[selectedType as keyof typeof colorMap];
     selectedEmailList.forEach((email, idx) => {
         const rem = idx % colors.length;
@@ -25,14 +35,18 @@ const EmailList = () => {
 
     const handleToggleClick = (email: Email) => {
         setOpenEmailMode(false);
-        if(email.subject === selectedEmail.subject)
+        if(email.id === selectedEmail.id || email.id === selectedEmail.parentId) {
+            setOpenMail({ open: email.id });
             return;
+        }
+        email.replys.sort((a, b) => b.id-a.id);
         const emailOrReply = email.type==='group' ? email.replys[0] : email;
         setSelectedEmail(emailOrReply);
-        selectedEmailList.forEach(e => e.expanded=false);
         if(email.type!=='group')
             return;
-        email.expanded = true;
+        setOpenMail(prevState => {
+            return { open: prevState.open === email.id ? -1 : email.id }
+        });
     };
 
     const handleReplyClick = (e: MouseEvent<HTMLDivElement>, reply: Email) => {
@@ -75,10 +89,18 @@ const EmailList = () => {
         return initials;
     }
 
+    const collapse = (e: MouseEvent<SVGElement>, email: Email) => {
+        e.stopPropagation();
+        setOpenMail(prevState => {
+            return { open: prevState.open === email.id ? -1 : email.id };
+        });
+    };
+
     return (
         <List component="nav" sx={{ width: '100%', padding: 0, borderTop: '1px solid #bbb' }}>
             {selectedEmailList.map((email) => (
-                <ListItemButton key={email.id} className={styles.emailBox  + ' ' + (selectedEmail.subject===email.subject ? styles.active : '')}
+                <ListItemButton key={email.id} 
+                    className={styles.emailBox  + ' ' + ((selectedEmail.id===email.id || selectedEmail.parentId===email.id) ? styles.active : '')}
                     onClick={handleToggleClick.bind(null, email)}
                     sx={{ display: 'inline-block', width: '100%'}}
                 >
@@ -91,28 +113,30 @@ const EmailList = () => {
                         sx={{ display: 'inline-block', pl:0 }}
                         secondary={
                             <Fragment>
-                                <Typography
-                                    sx={{ display: 'inline' }}
+                                <Typography 
+                                    sx={{ display: 'inline'}}
                                     component="span"
                                     variant="body2"
                                     color="text.primary"
                                 >
                                     {email.subject.length <= 40 ? email.subject : (email.subject.substr(0, 40) + "...")}
                                 </Typography>
-                                <div>{email.description.length <= 40 ? email.description : (email.description.substr(0, 40) + "...")}</div>
+                                <span style={{ display: 'block' }}>
+                                    {email.description.length <= 40 ? email.description : (email.description.substr(0, 40) + "...")}
+                                </span>
                             </Fragment>
                         } 
                     />
                     {email.type==='group' ? 
                         <span className={styles.collapseWrapper}>
-                            {email.expanded ? <ExpandLess /> : <ExpandMore />}
+                            {openMail.open===email.id ? <ExpandLess onClick={(e) => collapse(e, email)} /> : <ExpandMore />}
                         </span> : ''
                     }
                     <span className={styles.deleteWrapper}>
                         <DeleteOutlined sx={{ color:'#666' }} onClick={() => deleteEmail(email.id)} />
                     </span>
                     {email.type==='group' &&
-                        <Collapse in={email.expanded} timeout="auto" unmountOnExit>
+                        <Collapse in={openMail.open===email.id} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 {email.replys.map((reply) => (
                                     <ListItemButton key={reply.id}
@@ -122,15 +146,15 @@ const EmailList = () => {
                                             primary={reply.senderName || reply.from} 
                                             secondary={
                                                 <Fragment>
-                                                    <Typography
-                                                        sx={{ display: 'inline' }}
+                                                    <Typography 
+                                                        sx={{ display: 'inline'}}
                                                         component="span"
                                                         variant="body2"
-                                                        color="text.primary"
+                                                        color="text.secondary"
                                                     >
-                                                        {reply.description.length <= 40 ? email.description : (reply.description.substr(0, 40) + "...")}
+                                                        {reply.description.length <= 40 ? reply.description : (reply.description.substr(0, 40) + "...")}
                                                     </Typography>
-                                                </Fragment>
+                                            </Fragment>
                                             } 
                                         />
                                         <span className={styles.deleteReplyWrapper} style={{ top:0 }}>

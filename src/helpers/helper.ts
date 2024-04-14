@@ -2,7 +2,7 @@ import { Email } from "../components/types";
 import { getOutlookDataInStorage } from "../data/storage";
 
 type MaxIdFucntion = (arr: Email[], currMax: number) => number;
-const getMaxId: MaxIdFucntion = (arr: Email[], currMax: number) => {
+export const getMaxId: MaxIdFucntion = (arr: Email[], currMax: number) => {
     return arr.reduce((max, item) => {
         if(max<item.id) {
             max = item.id;

@@ -1,19 +1,48 @@
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import styles from './CreateNewEmail.module.css';
 import { Send, DeleteOutline } from '@mui/icons-material';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { emailList } from "../data/outlookData";
 import { useOutlookContext } from "../providers/OutlookProvider";
 import { getMaxOutlookId } from "../helpers/helper";
 import { getOutlookDataInStorage, setOutlookDataInStorage } from "../data/storage";
-import { EmailDetailsProps } from "./types";
+import { Email, EmailDetailsProps } from "./types";
 
 
 const CreateNewEmail = () => {
-    const { selectedEmailList, setSelectedEmailList, setOpenEmailMode } = useOutlookContext();
+    const { 
+        selectedEmailList, 
+        setSelectedEmailList, 
+        setOpenEmailMode, 
+        replyType, 
+        selectedEmail, 
+        selectedType 
+    } = useOutlookContext();
     const [toEmailDetails, setToEmailDetails] = useState<EmailDetailsProps[]>([]);
-    const [subject, setSubject] = useState<string>('');
+    const initSubject = ['reply', 'replyAll'].indexOf(replyType)>-1 ? selectedEmail.subject : '';
+    const [subject, setSubject] = useState<string>(initSubject);
     const [description, setDescription] = useState<string>('');
+
+    useEffect(() => {
+        const prepareDefaultListInCaseOfReply = () => {
+            let defaultToList: EmailDetailsProps[] = [];
+            const newTo = selectedEmail.to.filter(e => e!=='ankit@gupta.com');
+            if(replyType === 'reply') {
+                const to = selectedEmail.from!=='ankit@gupta.com' ? selectedEmail.from : newTo[0];
+                defaultToList = emailList.filter(e => [to].indexOf(e.email)>-1);
+            } else {
+                if(selectedEmail.from!=='ankit@gupta.com')
+                    newTo.unshift(selectedEmail.from);
+                defaultToList = emailList.filter(e => newTo.indexOf(e.email)>-1);
+            }
+            console.log('defaultToList = ', defaultToList);
+            setToEmailDetails(defaultToList);
+        }
+    
+        if(['reply', 'replyAll'].indexOf(replyType)>-1) {
+            prepareDefaultListInCaseOfReply();  
+        }
+    }, [replyType, selectedEmail.from, selectedEmail.to])
 
     const handleToEmailListChange = (value: EmailDetailsProps[]) => {
         setToEmailDetails(value);
@@ -27,10 +56,38 @@ const CreateNewEmail = () => {
         setDescription(event.target.value);
     };
 
+    const getParentForSingle = (p: Email, c: Email, emailObj: Email) => {
+        const maxId = getMaxOutlookId();
+        c.id = maxId+1;
+        c.type = 'firstReply';
+        c.parentId = p.id;
+        p.replys = [c];
+        emailObj.id = maxId+2;
+        return p;
+    };
+
+    const getParentObjForReplyCases = (emailObj: Email) => {
+        let parent = { ...selectedEmail };
+        if(['reply', 'firstReply'].indexOf(selectedEmail.type) > -1) {
+            parent = selectedEmailList.filter(e => e.id===selectedEmail.parentId)[0];
+        } else {
+            const newParent = getParentForSingle(selectedEmail, parent, emailObj);
+            parent = { ...newParent };
+        }
+        emailObj.parentId = parent.id;
+        emailObj.type = 'reply';
+
+        parent.subject = emailObj.subject;
+        parent.receiverNames = emailObj.receiverNames;
+        parent.to = emailObj.to;
+        parent.type = 'group';
+        parent.replys.push(emailObj);
+        return parent;
+    }
+
     const sendEmail = () => {
         const maxId = getMaxOutlookId();
-        console.log('maxId = ', maxId);
-        const emailObj = {
+        const emailObj: Email = {
             id: maxId+1,
             type: 'single',
             subject,
@@ -41,14 +98,33 @@ const CreateNewEmail = () => {
             receiverNames: toEmailDetails.map(ed => ed.name), 
             replys: []
         }
-
-        selectedEmailList.push(emailObj);
-        setSelectedEmailList(selectedEmailList);
         const outlookData = getOutlookDataInStorage();
-        outlookData['sent-items'].push(emailObj);
+        if(['reply', 'replyAll'].indexOf(replyType)>-1) {
+            const parent = getParentObjForReplyCases(emailObj);
+            // selectedEmailList.push(parent);
+            const index = selectedEmailList.findIndex((item: Email) => item.id === parent.id);
+            selectedEmailList[index] = parent;
+            setSelectedEmailList(selectedEmailList);
+            outlookData[selectedType] = selectedEmailList;
+            const index2 = outlookData['sent-items'].findIndex((item: Email) => item.id === parent.id);
+            if(index2 === -1) {
+                outlookData['sent-items'].unshift(parent);
+            } else {
+                outlookData['sent-items'][index2] = parent;
+            }
+        } else {
+            // In case of normal mail
+            selectedEmailList.push(emailObj);
+            setSelectedEmailList(selectedEmailList);
+            outlookData['sent-items'].unshift(emailObj);
+        }
         setOutlookDataInStorage(outlookData);
         setOpenEmailMode(false);
     };
+
+    const discardEmail = () => {
+        setOpenEmailMode(false);
+    }
 
     return (
         <Box p={3} className={styles.createEmailWrapper}>
@@ -62,6 +138,7 @@ const CreateNewEmail = () => {
                 </Button>
                 <Button variant="text" size="medium" 
                     startIcon={<DeleteOutline sx={{ pt:0.5 }} />}
+                    onClick={discardEmail}
                 >
                     Discard
                 </Button>
@@ -81,6 +158,7 @@ const CreateNewEmail = () => {
                         options={emailList}
                         getOptionLabel={(option) => option.email}
                         onChange={(e, val) => handleToEmailListChange(val)}
+                        value={toEmailDetails}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -94,7 +172,7 @@ const CreateNewEmail = () => {
             <Box py={1.5}>
                 <span style={{ width:'8.5%', top:'10px', position:'relative' }}>Subject: </span>
                 <span style={{ width:'91.5%' }}>
-                    <TextField fullWidth variant="standard" placeholder="Type subject..." 
+                    <TextField value={subject} fullWidth variant="standard" placeholder="Type subject..." 
                         onChange={handleSubjectChange} />
                 </span>
             </Box>

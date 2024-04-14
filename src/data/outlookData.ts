@@ -17,22 +17,22 @@ export const outlookData: OutlookDataProps = {
             id: 2,
             type: 'group',
             subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
-            description: 'SVG elements should be scaled for a 24x24px viewport so that the resulting icon can be used as is, or included as a child for other Material UI components that use icons. This can be customized with the viewBox attribute.',
+            description: 'By default, the component inherits the current color. Optionally, you can apply one of the theme colors using the color prop.',
             from: 'rajni@gupta.com',
             senderName: 'Rajni Gupta',
             to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankit@gupta.com'],
             receiverNames: [],
-            expanded: false,
             replys: [
                 {
                     id: 3,
-                    type: 'reply',
-                    description: 'By default, the component inherits the current color. Optionally, you can apply one of the theme colors using the color prop.',
+                    type: 'firstReply',
+                    description: 'If you find that there are layout issues when using FontAwesomeIcon from @fortawesome/react-fontawesome, you can try passing the Font Awesome SVG data directly to SvgIcon.',
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
-                    from: 'rajni@gupta.com',
-                    senderName: 'Rajni Gupta',
-                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankit@gupta.com'],
+                    from: 'papu@kapoor.com',
+                    senderName: 'Papu Nath Kapoor',
+                    to: ['ankit@gupta.com', 'hitarth@gupta.com', 'hitarth@reja.com', 'rajni@gupta.com'],
                     receiverNames: [],
+                    parentId: 2,
                     replys: []
                 },
                 {
@@ -40,22 +40,25 @@ export const outlookData: OutlookDataProps = {
                     type: 'reply',
                     description: `Google was founded on September 4, 1998, by American computer scientists Larry Page and Sergey Brin while they were PhD students at Stanford University in California. Together, they own about 14% of its publicly listed shares and control 56% of its stockholder voting power through super-voting stock. The company went public via an initial public offering (IPO) in 2004. In 2015, Google was reorganized as a wholly owned subsidiary of Alphabet Inc. Google is Alphabets largest subsidiary and is a holding company for Alphabet's internet properties and interests. Sundar Pichai was appointed CEO of Google on October 24, 2015, replacing Larry Page, who became the CEO of Alphabet. On December 3, 2019, Pichai also became the CEO of Alphabet.`,
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
-                    from: 'papu@kapoor.com',
-                    senderName: 'Papu Nath Kapoor',
-                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'rajni@gupta.com', 'ankit@gupta.com'],
+                    from: 'ankit@gupta.com',
+                    senderName: 'Ankit Gupta',
+                    to: ['papu@kapoor.com', 'hitarth@gupta.com', 'hitarth@reja.com', 'rajni@gupta.com'],
                     receiverNames: [],
+                    parentId: 2,
                     replys: []
                 },
                 {
                     id: 5,
-                    type: 'single',
-                    description: 'If you find that there are layout issues when using FontAwesomeIcon from @fortawesome/react-fontawesome, you can try passing the Font Awesome SVG data directly to SvgIcon.',
+                    type: 'reply',
+                    description: 'By default, the component inherits the current color. Optionally, you can apply one of the theme colors using the color prop.',
                     subject: 'Inbox Email 2: A new Amazon ElastiCache service update is available.',
-                    from: 'hitarth@gupta.com',
-                    to: ['papu@kapoor.com', 'hitarth@reja.com', 'rajni@gupta.com', 'ankit@gupta.com'],
+                    from: 'rajni@gupta.com',
+                    senderName: 'Rajni Gupta',
+                    to: ['hitarth@gupta.com', 'hitarth@reja.com', 'papu@kapoor.com', 'ankit@gupta.com'],
                     receiverNames: [],
+                    parentId: 2,
                     replys: []
-                }
+                },
             ]    
         },
         {
@@ -169,5 +172,6 @@ export const outlookData: OutlookDataProps = {
     {email: 'animesh@jaiswal.com', name: 'Animesh Jaiswal'}, 
     {email: 'saurabh@chench.com', name: 'Saurabh Chenchde'}, 
     {email: 'ranga@parbat.com', name: 'Ranga Parbat'}, 
-    {email: 'kishkinda@naresh.com', name: ''}
+    {email: 'kishkinda@naresh.com', name: ''},
+    {email: 'hitarth@reja.com', name: ''}, 
 ];

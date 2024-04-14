@@ -7,8 +7,8 @@ export type Email = {
     senderName?: string;
     to: string[];
     receiverNames: string[];
-    expanded?: boolean;
     color?: string;
+    parentId?: number;
     replys: Email[];
 };
 

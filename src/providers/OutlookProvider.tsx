@@ -8,11 +8,25 @@ type OutlookContextProps = {
     setSelectedType: (val: string) => void;
     selectedEmailList: Email[];
     setSelectedEmailList: (val: Email[]) => void;
-    selectedEmail: Partial<Email>;
+    selectedEmail: Email;
     setSelectedEmail: (email: Email) => void;
     openEmailMode: boolean;
     setOpenEmailMode: (mode: boolean) => void;
+    replyType: string;
+    handleReply: (type: string) =>  void;
 }
+
+const initialEmailState = {
+    id: 1,
+    type: 'single',
+    subject: '',
+    description: '',
+    from: '',
+    senderName: '',
+    to: [], 
+    receiverNames: [],
+    replys: []
+};
  
 const OutlookContext = createContext<OutlookContextProps>({
     emailTypes: [], 
@@ -20,10 +34,12 @@ const OutlookContext = createContext<OutlookContextProps>({
     setSelectedType: () => {},
     selectedEmailList: [],
     setSelectedEmailList: () => {},
-    selectedEmail: {},
+    selectedEmail: initialEmailState,
     setSelectedEmail: () => {},
     openEmailMode: false,
-    setOpenEmailMode: () => {}
+    setOpenEmailMode: () => {},
+    replyType: '',
+    handleReply: () =>  {}
 });
 
 type WithChildren = {
@@ -37,9 +53,15 @@ export const OutlookProvider = ({ children }: WithChildren) => {
     });
     const [selectedType, setSelectedType] = useState<string>(emailTypes[0]);
     const [selectedEmailList, setSelectedEmailList] = useState<Email[]>(outlookData[selectedType]);
-    const initSelectedEmail = selectedEmailList[0].replys?.length ? selectedEmailList[0].replys[0] : selectedEmailList[0];
+    const replys = selectedEmailList[0].replys;
+    const initSelectedEmail = replys.length>0 ? replys[replys.length-1] : selectedEmailList[0];
     const [selectedEmail, setSelectedEmail] = useState<Email>(initSelectedEmail);
     const [openEmailMode, setOpenEmailMode] = useState<boolean>(false);
+    const [replyType, setReplyType] = useState('');
+
+    const handleReply = (type: string) => {
+        setReplyType(type);
+    };
 
     return (
         <OutlookContext.Provider value={{ 
@@ -51,7 +73,9 @@ export const OutlookProvider = ({ children }: WithChildren) => {
             selectedEmail,
             setSelectedEmail,
             openEmailMode,
-            setOpenEmailMode
+            setOpenEmailMode,
+            replyType,
+            handleReply
         }}>
             { children }
         </OutlookContext.Provider>

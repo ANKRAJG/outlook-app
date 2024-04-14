@@ -2,7 +2,6 @@ import { List, ListItemButton, ListItemText } from "@mui/material";
 import styles from './EmailTypes.module.css';
 import { useOutlookContext } from "../providers/OutlookProvider";
 import { getOutlookDataInStorage } from "../data/storage";
-import { Email } from "./types";
 
 const EmailTypes = () => {
     const { 
@@ -19,12 +18,9 @@ const EmailTypes = () => {
     const handleClick = (type: string) => {
         setOpenEmailMode(false);
         setSelectedType(type);
-        Object.keys(outlookData).forEach((key) => {
-            outlookData[key].forEach((e: Email) => e.expanded=false);
-        });
         setSelectedEmailList(outlookData[type]);
         const emailThread = outlookData[type][0];
-        const emailOrReply = emailThread.replys?.length ? emailThread.replys[0] : emailThread;
+        const emailOrReply = emailThread.replys.length>0 ? emailThread.replys[emailThread.replys.length-1] : emailThread;
         setSelectedEmail(emailOrReply);
     };
 
