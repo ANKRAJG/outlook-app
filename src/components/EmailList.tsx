@@ -1,7 +1,7 @@
 import { Avatar, Collapse, List, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material";
 import styles from './EmailList.module.css';
 import { useOutlookContext } from "../providers/OutlookProvider";
-import { Fragment, MouseEvent, useState } from "react";
+import { Fragment, MouseEvent, useEffect, useState } from "react";
 import { Email } from "./types";
 import { ExpandLess, ExpandMore, DeleteOutlined } from "@mui/icons-material";
 import { colorMap } from "../data/outlookData";
@@ -18,14 +18,11 @@ const EmailList = () => {
     } = useOutlookContext();
 
     const [openMail, setOpenMail] = useState({open: selectedEmailList[0].id});
-    const checkInCaseOfReply = () => {
-        const parent = selectedEmailList.filter(e => e.id===selectedEmail.parentId)[0];
-        parent.replys.sort((a, b) => b.id-a.id);
-    }
 
-    if(['reply', 'firstReply'].indexOf(selectedEmail.type!) > -1) {
-        checkInCaseOfReply();  
-    }
+    useEffect(() => {
+        // On Email Type change, we expand the first email from the list.
+        setOpenMail({open: selectedEmailList[0].id});
+    }, [selectedType]);
 
     const colors: string[] = colorMap[selectedType as keyof typeof colorMap];
     selectedEmailList.forEach((email, idx) => {
@@ -42,8 +39,8 @@ const EmailList = () => {
         email.replys.sort((a, b) => b.id-a.id);
         const emailOrReply = email.type==='group' ? email.replys[0] : email;
         setSelectedEmail(emailOrReply);
-        if(email.type!=='group')
-            return;
+        // if(email.type!=='group')
+        //     return;
         setOpenMail(prevState => {
             return { open: prevState.open === email.id ? -1 : email.id }
         });

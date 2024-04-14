@@ -20,7 +20,7 @@ const EmailTypes = () => {
         setSelectedType(type);
         setSelectedEmailList(outlookData[type]);
         const emailThread = outlookData[type][0];
-        const emailOrReply = emailThread.replys.length>0 ? emailThread.replys[emailThread.replys.length-1] : emailThread;
+        const emailOrReply = emailThread.replys.length>0 ? emailThread.replys[0] : emailThread;
         setSelectedEmail(emailOrReply);
     };
 

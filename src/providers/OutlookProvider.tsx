@@ -54,7 +54,7 @@ export const OutlookProvider = ({ children }: WithChildren) => {
     const [selectedType, setSelectedType] = useState<string>(emailTypes[0]);
     const [selectedEmailList, setSelectedEmailList] = useState<Email[]>(outlookData[selectedType]);
     const replys = selectedEmailList[0].replys;
-    const initSelectedEmail = replys.length>0 ? replys[replys.length-1] : selectedEmailList[0];
+    const initSelectedEmail = replys.length>0 ? replys[0] : selectedEmailList[0];
     const [selectedEmail, setSelectedEmail] = useState<Email>(initSelectedEmail);
     const [openEmailMode, setOpenEmailMode] = useState<boolean>(false);
     const [replyType, setReplyType] = useState('');
