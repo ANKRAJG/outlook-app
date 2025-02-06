@@ -144,12 +144,13 @@ const EmailList = () => {
                                             secondary={
                                                 <Fragment>
                                                     <Typography 
-                                                        sx={{ display: 'inline'}}
+                                                        sx={{ display: 'inline' }}
                                                         component="span"
                                                         variant="body2"
                                                         color="text.secondary"
                                                     >
                                                         {reply.description.length <= 40 ? reply.description : (reply.description.substr(0, 40) + "...")}
+                                                        {!reply.description && (reply.subject.length <= 40 ? reply.subject : (reply.subject.substr(0, 40) + "..."))}
                                                     </Typography>
                                             </Fragment>
                                             } 

@@ -81,7 +81,7 @@ const CreateNewEmail = () => {
         parent.receiverNames = emailObj.receiverNames;
         parent.to = emailObj.to;
         parent.type = 'group';
-        parent.replys.push(emailObj);
+        parent.replys.unshift(emailObj);
         return parent;
     }
 
